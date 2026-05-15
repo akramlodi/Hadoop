@@ -1,0 +1,156 @@
+# Hadoop Installation Guide (Ubuntu)
+
+## 1. Install Java
+
+```bash
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+```
+
+Check Java:
+
+```bash
+java -version
+```
+
+---
+
+## 2. Download Hadoop
+
+```bash
+wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+```
+
+---
+
+## 3. Extract Hadoop
+
+```bash
+tar -xvzf hadoop-3.3.6.tar.gz
+```
+
+Move Hadoop:
+
+```bash
+sudo mv hadoop-3.3.6 /usr/local/hadoop
+```
+
+---
+
+## 4. Set Environment Variables
+
+Open `.bashrc`:
+
+```bash
+nano ~/.bashrc
+```
+
+Add:
+
+```bash
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+```
+
+Apply changes:
+
+```bash
+source ~/.bashrc
+```
+
+Check Hadoop:
+
+```bash
+hadoop version
+```
+
+---
+
+## 5. Configure JAVA_HOME
+
+Open:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+```
+
+Set:
+
+```bash
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+```
+
+---
+
+## 6. Configure core-site.xml
+
+Open:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/core-site.xml
+```
+
+Add inside `<configuration>`:
+
+```xml
+<property>
+   <name>fs.defaultFS</name>
+   <value>hdfs://localhost:9000</value>
+</property>
+```
+
+---
+
+## 7. Configure hdfs-site.xml
+
+Open:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+```
+
+Add inside `<configuration>`:
+
+```xml
+<property>
+   <name>dfs.replication</name>
+   <value>1</value>
+</property>
+```
+
+---
+
+## 8. Format NameNode
+
+```bash
+hdfs namenode -format
+```
+
+---
+
+## 9. Start Hadoop
+
+Start HDFS:
+
+```bash
+start-dfs.sh
+```
+
+Check services:
+
+```bash
+jps
+```
+
+Expected:
+
+```text
+NameNode
+DataNode
+SecondaryNameNode
+```
+
+---
+
