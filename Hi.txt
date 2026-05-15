@@ -1,0 +1,124 @@
+
+
+## 1. Install Java
+
+```bash
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+```
+
+---
+
+## 2. Start Hadoop
+
+```bash
+start-dfs.sh
+```
+
+---
+
+## 3. Download Hive
+
+```bash
+wget https://downloads.apache.org/hive/hive-4.0.1/apache-hive-4.0.1-bin.tar.gz
+```
+
+---
+
+## 4. Extract Hive
+
+```bash
+tar -xvzf apache-hive-4.0.1-bin.tar.gz
+sudo mv apache-hive-4.0.1-bin /usr/local/hive
+```
+
+---
+
+## 5. Set Environment Variables
+
+```bash
+nano ~/.bashrc
+```
+
+Add:
+
+```bash
+export HIVE_HOME=/usr/local/hive
+export PATH=$PATH:$HIVE_HOME/bin
+```
+
+Apply:
+
+```bash
+source ~/.bashrc
+```
+
+---
+
+## 6. Configure Hive
+
+```bash
+cp $HIVE_HOME/conf/hive-env.sh.template $HIVE_HOME/conf/hive-env.sh
+```
+
+Add Hadoop path:
+
+```bash
+export HADOOP_HOME=/usr/local/hadoop
+```
+
+---
+
+## 7. Create Hive Directories
+
+```bash
+hdfs dfs -mkdir /tmp
+hdfs dfs -chmod g+w /tmp
+
+hdfs dfs -mkdir -p /user/hive/warehouse
+hdfs dfs -chmod g+w /user/hive/warehouse
+```
+
+---
+
+## 8. Initialize Hive
+
+```bash
+schematool -dbType derby -initSchema
+```
+
+---
+
+## 9. Start Hive
+
+```bash
+hive
+```
+
+---
+
+# Minimal Commands to Memorize
+
+```bash
+sudo apt install openjdk-11-jdk -y
+
+start-dfs.sh
+
+wget <hive_link>
+
+tar -xvzf apache-hive-4.0.1-bin.tar.gz
+
+sudo mv apache-hive-4.0.1-bin /usr/local/hive
+
+export HIVE_HOME=/usr/local/hive
+
+export PATH=$PATH:$HIVE_HOME/bin
+
+schematool -dbType derby -initSchema
+
+hive
+```
+
+---
+
+[Apache Hive](https://hive.apache.org/?utm_source=chatgpt.com)
